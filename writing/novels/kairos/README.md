@@ -11,6 +11,11 @@ This folder contains the working materials for this novel. Follow the phase fold
 - 05_drafts: chapter drafts and continuity notes
 - 06_revision: revision passes and outcomes
 
+## Style Settings
+Style Profile: literary_philosophy
+Primary Themes: TBD
+Narrative Voice: TBD
+
 ## Notes
 - Keep early phases lightweight.
 - Do not write final prose outside 05_drafts.
