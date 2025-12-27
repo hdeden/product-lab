@@ -27,9 +27,12 @@
 ### MVP Scope
 - Attendance with GPS and optional selfie verification.
 - Leave/permit requests with approval flow.
-- Payroll calculation from attendance and leave data.
+- Payroll basics (attendance/leave inputs, configurable components, digital payslips).
 - Employee self-service (payslips, attendance history, leave balance).
 - Web admin dashboard for employee data, policies, and reporting.
+
+### Phase 2 Adds
+- Payroll statutory calculations (PPh21, BPJS) and advanced payroll rules.
 
 ### Differentiation
 - Shift scheduling and multi-location support suited for cafe and security operations.

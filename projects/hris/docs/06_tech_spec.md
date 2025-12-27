@@ -29,7 +29,7 @@
 - Auth and tenant management (role-based access, tenant isolation via RLS).
 - Attendance service (GPS, selfie capture, fraud checks, shift rules).
 - Leave and approval service.
-- Payroll service (PPh21, BPJS, overtime rules).
+ - Payroll service (Phase 2: PPh21, BPJS, overtime rules).
 - Employee self-service portal endpoints.
 - Reporting and analytics service.
 

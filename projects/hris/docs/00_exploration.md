@@ -18,7 +18,7 @@
 ## Checklist
 - [ ] Confirm target segment: UMKM cafe and security companies in Indonesia.
 - [ ] Document core pain points: manual attendance, leave by chat, payroll via spreadsheets.
-- [ ] Define MVP scope: attendance, leave, payroll, and basic ESS.
+- [ ] Define MVP scope: attendance, leave, payroll basics, and basic ESS.
 - [ ] Note platform needs: mobile-first for employees and web dashboard for admins.
 - [ ] Capture compliance needs: Indonesian labor rules, BPJS, PPh21, and data privacy.
 - [ ] Identify differentiation: sector-specific shift and multi-location support.

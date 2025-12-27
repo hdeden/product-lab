@@ -23,7 +23,7 @@
 - Flutter admin web: basic employee management and approvals.
 - Supabase Auth + RBAC with RLS policies per tenant.
 - Core tables: tenants, users, employees, attendance, leave, payroll_runs, payslips.
-- Edge Functions for payroll calculation and approvals.
+- Edge Functions for basic payroll and approvals.
 - Supabase Storage for payslips and attachments.
 - Pilot with 1-2 partner companies.
 
@@ -45,6 +45,7 @@
 - Scale Supabase project: read replicas, compute upgrades, storage lifecycle rules.
 - Edge Function hardening and queue-based batch payroll runs if needed.
 - Optional integrations (bank export, POS, fingerprint devices).
+- Mobile app offline mode for attendance sync in low-connectivity locations.
 - Add-on modules if demand justifies (recruitment, performance).
 
 ### Phase 5: Maturity

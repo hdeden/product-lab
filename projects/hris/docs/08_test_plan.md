@@ -14,7 +14,8 @@
 - Attendance (GPS, selfie, offline/online behavior).
 - Leave and approval workflows.
 - Overtime and late/early rules.
-- Payroll calculations (salary components, BPJS, PPh21).
+- Payroll calculations (salary components, payslips).
+- Phase 2 statutory payroll (BPJS, PPh21).
 - Employee self-service (payslips, balances, history).
 - Admin dashboard (data management, reports, access control).
 - Notifications and audit logging.
@@ -27,6 +28,9 @@
 - Payslip access restricted to owner.
 - Admin role access is enforced for sensitive operations.
 - Report exports generate correct totals.
+
+## Phase 2 Scenarios
+- Payroll statutory calculations match BPJS and PPh21 rules with sample data sets.
 
 ## Non-Functional Tests
 - Peak load simulation at typical attendance hours.

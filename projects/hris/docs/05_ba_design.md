@@ -35,7 +35,7 @@
 3. Approved overtime feeds payroll calculations.
 
 ### Payroll Flow
-1. Admin configures salary components, BPJS, and PPh21 rules.
+1. Admin configures salary components (statutory BPJS/PPh21 rules in Phase 2).
 2. System aggregates attendance, leave, and overtime for period.
 3. Payroll is calculated and reviewed.
 4. Payslips are generated and published in employee app.
@@ -46,6 +46,10 @@
 - Leave approval requires manager or HR based on org policy.
 - Payroll must follow Indonesian labor rules for overtime and statutory deductions.
 - Access to payroll data is restricted by role.
+
+### MVP Notes
+- Phase 1 focuses on basic payroll components and digital payslips.
+- Statutory payroll (BPJS, PPh21) and advanced rules move to Phase 2.
 
 ### Default Policy Settings (Configurable)
 
@@ -84,6 +88,7 @@
   - JKK: employer only, default 0.24% (risk class configurable).
   - JKM: employer only, 0.3%.
   - JP: 1% employee, 2% employer (subject to caps).
+  - Note: statutory defaults apply when Phase 2 payroll is enabled.
 
 #### Approval Hierarchy (Default)
 - Employee requests -> direct manager approves -> HR final approval.

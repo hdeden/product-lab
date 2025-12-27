@@ -18,7 +18,7 @@
 - Leave balance must auto-update after approval.
 - Overtime requests and late/early permissions must be supported and feed payroll.
 - Payroll must calculate salary using attendance, leave, overtime, and configured components.
-- Payroll must support PPh21 and BPJS calculations per Indonesian rules.
+- MVP payroll supports basic components and digital payslips; statutory calculations (PPh21/BPJS) land in Phase 2.
 - Employees must access digital payslips and history in the mobile app.
 - Admins must manage employee data, organization structure, policies, and payroll components.
 - Admins must access reports for attendance, leave, overtime, and payroll.
