@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'ui/hris_theme.dart';
+
 class AttendancePage extends StatefulWidget {
   const AttendancePage({super.key});
 
@@ -111,62 +113,154 @@ class _AttendancePageState extends State<AttendancePage> {
       appBar: AppBar(
         title: const Text('Attendance'),
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: hrisHeaderGradient(),
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _isSubmitting ? null : () => _clock('clock_in'),
-                    child: const Text('Clock In'),
-                  ),
+                Text(
+                  'Attendance',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(color: Colors.white),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: _isSubmitting ? null : () => _clock('clock_out'),
-                    child: const Text('Clock Out'),
-                  ),
+                const SizedBox(height: 8),
+                Text(
+                  'Track your clock-in/out and location logs.',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: Colors.white70),
+                ),
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: [
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(color: Colors.white70),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/attendance/clock');
+                      },
+                      child: const Text('Clock in/out'),
+                    ),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(color: Colors.white70),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/attendance/history');
+                      },
+                      child: const Text('View history'),
+                    ),
+                  ],
                 ),
               ],
             ),
-            if (_statusMessage != null) ...[
-              const SizedBox(height: 12),
-              Text(
-                _statusMessage!,
-                style: TextStyle(
-                  color: _statusMessage!.startsWith('Failed')
-                      ? Theme.of(context).colorScheme.error
-                      : Theme.of(context).colorScheme.primary,
-                ),
+          ),
+          const SizedBox(height: 20),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Clock status',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: FilledButton.icon(
+                          onPressed:
+                              _isSubmitting ? null : () => _clock('clock_in'),
+                          icon: const Icon(Icons.login),
+                          label: const Text('Clock In'),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed:
+                              _isSubmitting ? null : () => _clock('clock_out'),
+                          icon: const Icon(Icons.logout),
+                          label: const Text('Clock Out'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (_statusMessage != null) ...[
+                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: _statusMessage!.startsWith('Failed')
+                            ? Theme.of(context).colorScheme.errorContainer
+                            : hrisGray200,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        _statusMessage!,
+                        style: TextStyle(
+                          color: _statusMessage!.startsWith('Failed')
+                              ? Theme.of(context).colorScheme.onErrorContainer
+                              : Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
               ),
-            ],
-            const SizedBox(height: 24),
-            Text(
-              'Recent events',
-              style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(height: 8),
-            Expanded(
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'Recent events',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 12),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
               child: FutureBuilder<List<Map<String, dynamic>>>(
                 future: _eventsFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Padding(
+                      padding: EdgeInsets.all(24),
+                      child: Center(child: CircularProgressIndicator()),
+                    );
                   }
                   if (snapshot.hasError) {
-                    return Center(
+                    return Padding(
+                      padding: const EdgeInsets.all(16),
                       child: Text('Failed to load events: ${snapshot.error}'),
                     );
                   }
                   final events = snapshot.data ?? [];
                   if (events.isEmpty) {
-                    return const Center(child: Text('No events yet.'));
+                    return const Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Text('No events yet.'),
+                    );
                   }
                   return ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: events.length,
                     separatorBuilder: (_, __) => const Divider(height: 1),
                     itemBuilder: (context, index) {
@@ -190,8 +284,8 @@ class _AttendancePageState extends State<AttendancePage> {
                 },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

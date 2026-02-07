@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'ui/hris_theme.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -70,41 +72,123 @@ class HomePage extends StatelessWidget {
 
           final data = snapshot.data ?? {};
 
-          return Padding(
+          return ListView(
             padding: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Welcome',
-                  style: Theme.of(context).textTheme.headlineMedium,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: hrisHeaderGradient(),
+                  borderRadius: BorderRadius.circular(24),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  user?.email ?? 'Unknown user',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Welcome back',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(color: Colors.white),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      user?.email ?? 'Unknown user',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Colors.white70),
+                    ),
+                    const SizedBox(height: 16),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        _InfoChip(
+                          label: 'Tenant',
+                          value: data['tenant_id'] ?? '-',
+                        ),
+                        _InfoChip(
+                          label: 'Role',
+                          value: data['role'] ?? '-',
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 16),
-                _ProfileLine(label: 'Tenant ID', value: data['tenant_id'] ?? '-'),
-                _ProfileLine(label: 'Role', value: data['role'] ?? '-'),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/profile');
-                  },
-                  child: const Text('View profile'),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Quick actions',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  FilledButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/attendance');
+                    },
+                    icon: const Icon(Icons.fingerprint),
+                    label: const Text('Attendance'),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/requests');
+                    },
+                    icon: const Icon(Icons.assignment_outlined),
+                    label: const Text('Requests'),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/payslip');
+                    },
+                    icon: const Icon(Icons.receipt_long_outlined),
+                    label: const Text('Payslip'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: const [
+                  Expanded(
+                    child: _StatCard(
+                      label: 'Clocked in',
+                      value: '08:05',
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: _StatCard(
+                      label: 'Leave balance',
+                      value: '8 days',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.insights_outlined,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      const SizedBox(width: 12),
+                      const Expanded(
+                        child: Text(
+                          'Next: attendance, leave, and payroll modules.',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 12),
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/attendance');
-                  },
-                  child: const Text('Attendance'),
-                ),
-                const SizedBox(height: 12),
-                const Text('Next: Attendance, leave, payroll modules.'),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),
@@ -112,32 +196,63 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _ProfileLine extends StatelessWidget {
-  const _ProfileLine({required this.label, required this.value});
+class _InfoChip extends StatelessWidget {
+  const _InfoChip({required this.label, required this.value});
 
   final String label;
   final String value;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            width: 90,
-            child: Text(
-              label,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+          Text(
+            '$label:',
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall
+                ?.copyWith(color: Colors.white70),
           ),
-          Expanded(
-            child: Text(
-              value,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
+          const SizedBox(width: 6),
+          Text(
+            value,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: Colors.white),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _StatCard extends StatelessWidget {
+  const _StatCard({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(label, style: Theme.of(context).textTheme.bodySmall),
+            const SizedBox(height: 8),
+            Text(value, style: Theme.of(context).textTheme.titleMedium),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'ui/hris_theme.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -147,52 +149,98 @@ class _ProfilePageState extends State<ProfilePage> {
           : ListView(
               padding: const EdgeInsets.all(24),
               children: [
-                Text(
-                  authUser?.email ?? 'Unknown user',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(height: 16),
-                _InfoRow(label: 'Tenant ID', value: _tenantId.isEmpty ? '-' : _tenantId),
-                _InfoRow(label: 'Role', value: _role),
-                const SizedBox(height: 24),
-                Form(
-                  key: _formKey,
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    gradient: hrisHeaderGradient(),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextFormField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Full name',
-                          border: OutlineInputBorder(),
-                        ),
+                      Text(
+                        authUser?.email ?? 'Unknown user',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(color: Colors.white),
                       ),
                       const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _phoneController,
-                        keyboardType: TextInputType.phone,
-                        decoration: const InputDecoration(
-                          labelText: 'Phone',
-                          border: OutlineInputBorder(),
-                        ),
+                      _InfoRow(
+                        label: 'Tenant ID',
+                        value: _tenantId.isEmpty ? '-' : _tenantId,
+                        labelColor: Colors.white70,
+                        valueColor: Colors.white,
                       ),
-                      const SizedBox(height: 16),
-                      if (_statusMessage != null) ...[
-                        Text(
-                          _statusMessage!,
-                          style: TextStyle(
-                            color: _statusMessage!.startsWith('Failed')
-                                ? Theme.of(context).colorScheme.error
-                                : Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                      ],
-                      ElevatedButton(
-                        onPressed: _isSaving ? null : _saveProfile,
-                        child: Text(_isSaving ? 'Saving...' : 'Save'),
+                      _InfoRow(
+                        label: 'Role',
+                        value: _role,
+                        labelColor: Colors.white70,
+                        valueColor: Colors.white,
                       ),
                     ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Personal details',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 12),
+                          TextFormField(
+                            controller: _nameController,
+                            decoration: const InputDecoration(
+                              labelText: 'Full name',
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _phoneController,
+                            keyboardType: TextInputType.phone,
+                            decoration: const InputDecoration(
+                              labelText: 'Phone',
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          if (_statusMessage != null) ...[
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: _statusMessage!.startsWith('Failed')
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .errorContainer
+                                    : const Color(0xFFE5EFEA),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                _statusMessage!,
+                                style: TextStyle(
+                                  color: _statusMessage!.startsWith('Failed')
+                                      ? Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer
+                                      : Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                          ],
+                          FilledButton(
+                            onPressed: _isSaving ? null : _saveProfile,
+                            child: Text(_isSaving ? 'Saving...' : 'Save'),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -202,10 +250,17 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({required this.label, required this.value});
+  const _InfoRow({
+    required this.label,
+    required this.value,
+    this.labelColor,
+    this.valueColor,
+  });
 
   final String label;
   final String value;
+  final Color? labelColor;
+  final Color? valueColor;
 
   @override
   Widget build(BuildContext context) {
@@ -217,13 +272,19 @@ class _InfoRow extends StatelessWidget {
             width: 90,
             child: Text(
               label,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: labelColor),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: valueColor),
             ),
           ),
         ],

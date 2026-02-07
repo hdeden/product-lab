@@ -13,7 +13,17 @@
 - Added lightweight profile screen with a route from the dashboard.
 - Attendance status now shows lat/long; recent events list includes location.
 - Attendance MVP migration added and applied to local Supabase.
+- Polished Flutter UI theme and screens (auth, dashboard, attendance, profile).
+- Pinned google_fonts to a Flutter 3.13 compatible version.
+- Documented screen requirements for current app flow.
 - Fixed profile loading by adding self-read RLS policies and metadata fallback.
 - Added editable profile fields backed by employee_profiles.
 - Added attendance MVP (clock in/out UI + attendance_events table).
 - Added GPS capture for attendance events using geolocator.
+
+## 2026-01-24
+- Reorganized HRIS docs into `_logs/` and `_artifacts/`, plus docs index README.
+- Added project root README with overview, status, and key references.
+- Implemented HRIS UI styling updates (gradient headers, cards, chips).
+- Added bottom navigation shell for main sections.
+- Scaffolded extracted routes for requests, payslip, and attendance subpages.

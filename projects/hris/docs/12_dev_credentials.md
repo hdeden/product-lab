@@ -7,6 +7,8 @@
 ## Local Supabase
 - Supabase URL: http://localhost:8000
 - Anon key: set in `projects/hris/app_flutter/lib/config.dart`
+- supabase dashboard user name : supabase
+- supabase dashboard password: this_password_is_insecure_and_should_be_updated
 
 ## Seed Tenant
 - Tenant name: Demo Tenant
